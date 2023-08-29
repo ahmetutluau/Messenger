@@ -12,71 +12,10 @@ import SDWebImage
 import AVKit
 import CoreLocation
 
-struct Message: MessageType {
-    var sender: SenderType
-    var messageId: String
-    var sentDate: Date
-    var kind: MessageKind
-}
-
-extension MessageKind {
-    var MessageKindString: String {
-        switch self {
-            
-        case .text(_):
-            return "text"
-        case .attributedText(_):
-            return "attributedText"
-        case .photo(_):
-            return "photo"
-        case .video(_):
-            return "video"
-        case .location(_):
-            return "location"
-        case .emoji(_):
-            return "emoji"
-        case .audio(_):
-            return "audio"
-        case .contact(_):
-            return "contact"
-        case .linkPreview(_):
-            return "linkPreview"
-        case .custom(_):
-            return "custom"
-        }
-    }
-}
-
-struct Sender: SenderType {
-    var photoUrl: String
-    var senderId: String
-    var displayName: String
-}
-
-struct Media: MediaItem {
-    var url: URL?
-    var image: UIImage?
-    var placeholderImage: UIImage
-    var size: CGSize
-}
-
-struct Location: LocationItem {
-    var location: CLLocation
-    var size: CGSize
-}
-
 final class ChatVC: MessagesViewController {
     private var conversations: [Conversation] = []
     private var senderUserPhotoUrl: URL?
-    private var otherUserPhotoUrl: URL?
-
-    public static var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter ( )
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .long
-        formatter.locale = .current
-        return formatter
-    }()
+    private var otherUserPhotoUrl: URL?    
     
     public var otherUserEmail: String?
     public var isNewConversation = false
@@ -310,7 +249,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         }
 
         let safeCurrentEmail = DatabaseManager.safeEmail(email: currentUserEmail)
-        let dateString = Self.dateFormatter.string(from: Date())
+        let dateString = DatabaseManager.dateFormatter.string(from: Date())
         let newIdentifier = "\(otherUserEmail)_\(safeCurrentEmail)_\(dateString)"
         print("created messageId: \(newIdentifier)")
 

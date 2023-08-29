@@ -229,7 +229,7 @@ final class RegisterVC: UIViewController, UINavigationControllerDelegate {
     
     private func alertUserLoginError(_ message: String = "please enter all information to  create a new account") {
         let alert = UIAlertController(title: "Woops", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "dissmiss", style: .cancel))
+        alert.addAction(UIAlertAction(title: "dismiss", style: .cancel))
         present(alert, animated: true)
     }
     

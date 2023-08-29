@@ -22,10 +22,20 @@ final class DatabaseManager {
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         return safeEmail
     }
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter ( )
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .long
+        formatter.locale = .current
+        return formatter
+    }()
 }
 
 // MARK: - Account managament
 extension DatabaseManager {
+    
+    /// Inserts new user to database
     public func insertUser(with user: ChatAppUser, completion: @escaping (Bool) -> Void) {
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
@@ -74,11 +84,11 @@ extension DatabaseManager {
         }
     }
     
+    /// Checks if user exists for given email
     public func userExist(with email: String, completion: @escaping (Bool) -> Void) {
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        let safeEmail = DatabaseManager.safeEmail(email: email)
         database.child(safeEmail).observeSingleEvent(of: .value) { snapShot in
-            guard snapShot.value as? String != nil else {
+            guard snapShot.value as? [String: Any] != nil else {
                 completion(false)
                 return
             }
@@ -86,6 +96,7 @@ extension DatabaseManager {
         }
     }
     
+    /// Gets all users from database
     public func getAllUsers (completion: @escaping (Result<[[String: String]], DatabaseError>) -> Void) {
         database.child("users").observeSingleEvent(of: .value, with: { snapshot in
             guard let value = snapshot.value as? [[String: String]] else {
@@ -94,17 +105,13 @@ extension DatabaseManager {
             }
             completion(.success (value))
         })
-    }
-    
-    public enum DatabaseError: Error {
-        case failedToFetch
-    }
+    }    
 }
 
 // MARK: - Sending messages / conversations
 extension DatabaseManager {
     
-    /// Creates a new conversation with target user emamil and first message sent
+    /// Creates a new conversation with target user email and first message sent
     public func createNewConversation(with otherUserEmail: String, name: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
         guard let currentEmail = UserDefaults.standard.value(forKey: "email") as? String,
               let currentName = UserDefaults.standard.value(forKey: "name") as? String else {
@@ -120,7 +127,7 @@ extension DatabaseManager {
             }
             
             let messageDate = firstMessage.sentDate
-            let dateString = ChatVC.dateFormatter.string(from: messageDate)
+            let dateString = DatabaseManager.dateFormatter.string(from: messageDate)
             
             var message = ""
             
@@ -172,7 +179,7 @@ extension DatabaseManager {
             
             // update current user conversation entry
             if var conversations = userNode["conversations"] as? [[String: Any]] {
-                //conversation array exists for current user
+                // conversation array exists for current user
                 // you should append
                 conversations.append(newConversationData)
                 userNode["conversations"] = conversations
@@ -199,17 +206,19 @@ extension DatabaseManager {
                         completion(false)
                         return
                     }
-                    self.finishCreatingConversation(name: name, conversationID: conversationId, firstMessage: firstMessage, completion: completion)
+                    self.finishCreatingConversation(name: name,
+                                                    conversationID: conversationId,
+                                                    firstMessage: firstMessage,
+                                                    completion: completion)
                 }
             }
         }
-        
     }
     
     private func finishCreatingConversation(name: String, conversationID:String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
         
         let messageDate = firstMessage.sentDate
-        let dateString = ChatVC.dateFormatter.string(from: messageDate)
+        let dateString = DatabaseManager.dateFormatter.string(from: messageDate)
         
         var message = ""
         
@@ -292,7 +301,7 @@ extension DatabaseManager {
                       let sendermail = dictionary[ "sender_email"] as? String,
                       let type = dictionary["type"] as? String,
                       let dateString = dictionary["date"] as? String,
-                      let date = ChatVC.dateFormatter.date(from: dateString) else { return nil }
+                      let date = DatabaseManager.dateFormatter.date(from: dateString) else { return nil }
                 
                 var kind: MessageKind? {
                     if type == "photo" {
@@ -357,7 +366,7 @@ extension DatabaseManager {
             }
             
             let messageDate = newMessage.sentDate
-            let dateString = ChatVC.dateFormatter.string(from: messageDate)
+            let dateString = DatabaseManager.dateFormatter.string(from: messageDate)
             
             var message = ""
             

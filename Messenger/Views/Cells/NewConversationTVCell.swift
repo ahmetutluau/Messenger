@@ -8,7 +8,7 @@
 import Foundation
 import SDWebImage
 
-class NewConversationTVCell: UITableViewCell {
+final class NewConversationTVCell: UITableViewCell {
     
     static let identifier = "NewConversationTVCell"
     

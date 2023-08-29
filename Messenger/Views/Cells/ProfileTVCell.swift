@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ProfileTVCell: UITableViewCell {
+final class ProfileTVCell: UITableViewCell {
     static let identifier = "ProfileTVCell"
     
-    func setup(with viewModel: ProfileViewModel) {
+    func setup(with viewModel: ProfileModel) {
         self.textLabel?.text = viewModel.title
         
         switch viewModel.viewModelType {

@@ -8,11 +8,6 @@
 import Foundation
 import FirebaseStorage
 
-public enum StorageErrors: Error {
-    case failToUpload
-    case failToGetDownloadUrl
-}
-
 final class StorageManager {
     static let shared = StorageManager()
     

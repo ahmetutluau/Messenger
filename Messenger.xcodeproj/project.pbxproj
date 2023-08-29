@@ -21,7 +21,7 @@
 		436A1B162A127E23001255A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 436A1B142A127E23001255A5 /* LaunchScreen.storyboard */; };
 		436A1B252A127EDB001255A5 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436A1B242A127EDB001255A5 /* LoginVC.swift */; };
 		436A1B272A127EF5001255A5 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436A1B262A127EF5001255A5 /* RegisterVC.swift */; };
-		436A1B292A12826E001255A5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436A1B282A12826E001255A5 /* Extensions.swift */; };
+		436A1B292A12826E001255A5 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436A1B282A12826E001255A5 /* UIView+Ext.swift */; };
 		4375AEC52A1B8A9300E3FB73 /* NewConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4375AEC42A1B8A9300E3FB73 /* NewConversationsVC.swift */; };
 		4375AEC72A1BBE4B00E3FB73 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4375AEC62A1BBE4B00E3FB73 /* StorageManager.swift */; };
 		4379A5302A139B4400EE5C1F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4379A52F2A139B4400EE5C1F /* FirebaseAuth */; };
@@ -29,14 +29,23 @@
 		4379A5342A139B4400EE5C1F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4379A5332A139B4400EE5C1F /* FirebaseFirestore */; };
 		4379A5362A139B4400EE5C1F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4379A5352A139B4400EE5C1F /* FirebaseFirestoreSwift */; };
 		4379A5382A139B4400EE5C1F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 4379A5372A139B4400EE5C1F /* FirebaseStorage */; };
+		438504162A9CC015000EB10E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438504152A9CC015000EB10E /* Message.swift */; };
+		4385041A2A9CC1B9000EB10E /* MessageKind+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438504192A9CC1B9000EB10E /* MessageKind+Ext.swift */; };
+		4385041C2A9CC465000EB10E /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385041B2A9CC465000EB10E /* Sender.swift */; };
+		4385041E2A9CC47A000EB10E /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385041D2A9CC47A000EB10E /* Media.swift */; };
+		438504202A9CC495000EB10E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385041F2A9CC495000EB10E /* Location.swift */; };
+		438504222A9CC8A3000EB10E /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438504212A9CC8A3000EB10E /* Conversation.swift */; };
+		438504262A9CD00B000EB10E /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438504252A9CD00B000EB10E /* DatabaseError.swift */; };
+		4385042C2A9CD0E3000EB10E /* StorageErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385042B2A9CD0E3000EB10E /* StorageErrors.swift */; };
+		4385042E2A9CD13F000EB10E /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385042D2A9CD13F000EB10E /* ProfileModel.swift */; };
+		438504302A9CD160000EB10E /* ProfileModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385042F2A9CD160000EB10E /* ProfileModelType.swift */; };
+		438504322A9CD1F5000EB10E /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438504312A9CD1F5000EB10E /* SearchResult.swift */; };
 		439FA1252A14CF160009B12E /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FA1242A14CF160009B12E /* DatabaseManager.swift */; };
 		43A87BA22A24EB5100B28D36 /* ConversationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A87BA12A24EB5100B28D36 /* ConversationTVCell.swift */; };
 		43D1253D2A39E0BF00296169 /* ChatAppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1253C2A39E0BF00296169 /* ChatAppUser.swift */; };
 		43FBD8372A1647C900A45555 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBD8362A1647C900A45555 /* ProfileVC.swift */; };
 		43FBD83A2A1670F100A45555 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 43FBD8392A1670F100A45555 /* MessageKit */; };
 		43FBD83D2A16717D00A45555 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 43FBD83C2A16717D00A45555 /* JGProgressHUD */; };
-		43FBD8402A16722100A45555 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 43FBD83F2A16722100A45555 /* Realm */; };
-		43FBD8422A16722100A45555 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 43FBD8412A16722100A45555 /* RealmSwift */; };
 		43FBD8452A16725A00A45555 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 43FBD8442A16725A00A45555 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
@@ -57,9 +66,20 @@
 		436A1B172A127E23001255A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		436A1B242A127EDB001255A5 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		436A1B262A127EF5001255A5 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
-		436A1B282A12826E001255A5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		436A1B282A12826E001255A5 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		4375AEC42A1B8A9300E3FB73 /* NewConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationsVC.swift; sourceTree = "<group>"; };
 		4375AEC62A1BBE4B00E3FB73 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		438504152A9CC015000EB10E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		438504192A9CC1B9000EB10E /* MessageKind+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageKind+Ext.swift"; sourceTree = "<group>"; };
+		4385041B2A9CC465000EB10E /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		4385041D2A9CC47A000EB10E /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		4385041F2A9CC495000EB10E /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		438504212A9CC8A3000EB10E /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		438504252A9CD00B000EB10E /* DatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseError.swift; sourceTree = "<group>"; };
+		4385042B2A9CD0E3000EB10E /* StorageErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageErrors.swift; sourceTree = "<group>"; };
+		4385042D2A9CD13F000EB10E /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		4385042F2A9CD160000EB10E /* ProfileModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelType.swift; sourceTree = "<group>"; };
+		438504312A9CD1F5000EB10E /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		439FA1242A14CF160009B12E /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		43A87BA12A24EB5100B28D36 /* ConversationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTVCell.swift; sourceTree = "<group>"; };
 		43D1253C2A39E0BF00296169 /* ChatAppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAppUser.swift; sourceTree = "<group>"; };
@@ -74,12 +94,10 @@
 				4379A5322A139B4400EE5C1F /* FirebaseDatabase in Frameworks */,
 				43FBD83D2A16717D00A45555 /* JGProgressHUD in Frameworks */,
 				4379A5302A139B4400EE5C1F /* FirebaseAuth in Frameworks */,
-				43FBD8422A16722100A45555 /* RealmSwift in Frameworks */,
 				43FBD8452A16725A00A45555 /* SDWebImage in Frameworks */,
 				4379A5342A139B4400EE5C1F /* FirebaseFirestore in Frameworks */,
 				43FBD83A2A1670F100A45555 /* MessageKit in Frameworks */,
 				4379A5382A139B4400EE5C1F /* FirebaseStorage in Frameworks */,
-				43FBD8402A16722100A45555 /* Realm in Frameworks */,
 				4379A5362A139B4400EE5C1F /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +108,8 @@
 		4354D5892A3B2D4700EEF397 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				43A87BA12A24EB5100B28D36 /* ConversationTVCell.swift */,
+				43154ED92A2DBA0800D0AA69 /* NewConversationTVCell.swift */,
 				4354D58A2A3B2D5600EEF397 /* ProfileTVCell.swift */,
 			);
 			path = Cells;
@@ -114,13 +134,12 @@
 		436A1B082A127E23001255A5 /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
-				435991422A93480900C69105 /* GoogleService-Info.plist */,
+				438504172A9CC111000EB10E /* Helpers */,
 				436A1B212A127E6F001255A5 /* Controllers */,
 				436A1B202A127E63001255A5 /* Views */,
-				436A1B1F2A127E5C001255A5 /* Models */,
-				436A1B1E2A127E50001255A5 /* ViewModels */,
 				436A1B1D2A127E3D001255A5 /* Resources */,
 				436A1B172A127E23001255A5 /* Info.plist */,
+				435991422A93480900C69105 /* GoogleService-Info.plist */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
@@ -130,24 +149,21 @@
 			children = (
 				436A1B092A127E23001255A5 /* AppDelegate.swift */,
 				436A1B0B2A127E23001255A5 /* SceneDelegate.swift */,
-				436A1B282A12826E001255A5 /* Extensions.swift */,
-				439FA1242A14CF160009B12E /* DatabaseManager.swift */,
-				4375AEC62A1BBE4B00E3FB73 /* StorageManager.swift */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		436A1B1E2A127E50001255A5 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		436A1B1F2A127E5C001255A5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				43D1253C2A39E0BF00296169 /* ChatAppUser.swift */,
+				438504152A9CC015000EB10E /* Message.swift */,
+				4385041B2A9CC465000EB10E /* Sender.swift */,
+				4385041D2A9CC47A000EB10E /* Media.swift */,
+				4385041F2A9CC495000EB10E /* Location.swift */,
+				438504212A9CC8A3000EB10E /* Conversation.swift */,
+				4385042D2A9CD13F000EB10E /* ProfileModel.swift */,
+				438504312A9CD1F5000EB10E /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -155,11 +171,9 @@
 		436A1B202A127E63001255A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				436A1B222A127E87001255A5 /* Storyboards */,
 				4354D5892A3B2D4700EEF397 /* Cells */,
 				436A1B122A127E23001255A5 /* Assets.xcassets */,
-				436A1B222A127E87001255A5 /* Storyboards */,
-				43A87BA12A24EB5100B28D36 /* ConversationTVCell.swift */,
-				43154ED92A2DBA0800D0AA69 /* NewConversationTVCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -167,7 +181,7 @@
 		436A1B212A127E6F001255A5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				436A1B232A127ECA001255A5 /* Login */,
+				436A1B232A127ECA001255A5 /* Auth */,
 				436A1B0D2A127E23001255A5 /* ConversationVC.swift */,
 				43FBD8362A1647C900A45555 /* ProfileVC.swift */,
 				4341A6EA2A1B4E6F00979598 /* ChatVC.swift */,
@@ -187,13 +201,52 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		436A1B232A127ECA001255A5 /* Login */ = {
+		436A1B232A127ECA001255A5 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
 				436A1B242A127EDB001255A5 /* LoginVC.swift */,
 				436A1B262A127EF5001255A5 /* RegisterVC.swift */,
 			);
-			path = Login;
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		438504172A9CC111000EB10E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				438504242A9CCFF4000EB10E /* Enums */,
+				438504232A9CC90E000EB10E /* Managers */,
+				436A1B1F2A127E5C001255A5 /* Models */,
+				438504182A9CC119000EB10E /* Extensions */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		438504182A9CC119000EB10E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				436A1B282A12826E001255A5 /* UIView+Ext.swift */,
+				438504192A9CC1B9000EB10E /* MessageKind+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		438504232A9CC90E000EB10E /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				439FA1242A14CF160009B12E /* DatabaseManager.swift */,
+				4375AEC62A1BBE4B00E3FB73 /* StorageManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		438504242A9CCFF4000EB10E /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				438504252A9CD00B000EB10E /* DatabaseError.swift */,
+				4385042B2A9CD0E3000EB10E /* StorageErrors.swift */,
+				4385042F2A9CD160000EB10E /* ProfileModelType.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,8 +273,6 @@
 				4379A5372A139B4400EE5C1F /* FirebaseStorage */,
 				43FBD8392A1670F100A45555 /* MessageKit */,
 				43FBD83C2A16717D00A45555 /* JGProgressHUD */,
-				43FBD83F2A16722100A45555 /* Realm */,
-				43FBD8412A16722100A45555 /* RealmSwift */,
 				43FBD8442A16725A00A45555 /* SDWebImage */,
 			);
 			productName = Messenger;
@@ -256,7 +307,6 @@
 				4379A52E2A139B4400EE5C1F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				43FBD8382A1670F100A45555 /* XCRemoteSwiftPackageReference "MessageKit" */,
 				43FBD83B2A16717D00A45555 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
-				43FBD83E2A16722100A45555 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				43FBD8432A16725A00A45555 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = 436A1B072A127E23001255A5 /* Products */;
@@ -288,17 +338,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				4354D58B2A3B2D5600EEF397 /* ProfileTVCell.swift in Sources */,
+				438504302A9CD160000EB10E /* ProfileModelType.swift in Sources */,
 				4341A6EB2A1B4E6F00979598 /* ChatVC.swift in Sources */,
+				438504222A9CC8A3000EB10E /* Conversation.swift in Sources */,
+				4385041E2A9CC47A000EB10E /* Media.swift in Sources */,
 				434017FA2A31F43F007E75EB /* LocationPickerVC.swift in Sources */,
+				4385042C2A9CD0E3000EB10E /* StorageErrors.swift in Sources */,
+				438504262A9CD00B000EB10E /* DatabaseError.swift in Sources */,
+				438504162A9CC015000EB10E /* Message.swift in Sources */,
+				4385041C2A9CC465000EB10E /* Sender.swift in Sources */,
+				4385041A2A9CC1B9000EB10E /* MessageKind+Ext.swift in Sources */,
 				436A1B0E2A127E23001255A5 /* ConversationVC.swift in Sources */,
 				430B2C602A2CE4F9009E07BA /* PhotoViewerVC.swift in Sources */,
 				4375AEC72A1BBE4B00E3FB73 /* StorageManager.swift in Sources */,
-				436A1B292A12826E001255A5 /* Extensions.swift in Sources */,
+				4385042E2A9CD13F000EB10E /* ProfileModel.swift in Sources */,
+				436A1B292A12826E001255A5 /* UIView+Ext.swift in Sources */,
 				43A87BA22A24EB5100B28D36 /* ConversationTVCell.swift in Sources */,
+				438504202A9CC495000EB10E /* Location.swift in Sources */,
 				436A1B0A2A127E23001255A5 /* AppDelegate.swift in Sources */,
 				43154EDA2A2DBA0800D0AA69 /* NewConversationTVCell.swift in Sources */,
 				436A1B252A127EDB001255A5 /* LoginVC.swift in Sources */,
 				43FBD8372A1647C900A45555 /* ProfileVC.swift in Sources */,
+				438504322A9CD1F5000EB10E /* SearchResult.swift in Sources */,
 				436A1B0C2A127E23001255A5 /* SceneDelegate.swift in Sources */,
 				43D1253D2A39E0BF00296169 /* ChatAppUser.swift in Sources */,
 				436A1B272A127EF5001255A5 /* RegisterVC.swift in Sources */,
@@ -545,14 +606,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		43FBD83E2A16722100A45555 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		43FBD8432A16725A00A45555 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -598,16 +651,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 43FBD83B2A16717D00A45555 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
-		};
-		43FBD83F2A16722100A45555 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 43FBD83E2A16722100A45555 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		43FBD8412A16722100A45555 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 43FBD83E2A16722100A45555 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 		43FBD8442A16725A00A45555 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

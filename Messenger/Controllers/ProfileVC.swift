@@ -8,20 +8,10 @@
 import UIKit
 import FirebaseAuth
 
-enum ProfileViewModelType {
-    case info, logout
-}
-
-struct ProfileViewModel {
-    let viewModelType: ProfileViewModelType
-    let title: String
-    let handler: (() -> Void)?
-}
-
 final class ProfileVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var data = [ProfileViewModel]()
+    var data = [ProfileModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +19,13 @@ final class ProfileVC: UIViewController {
     }
     
     private func setupViewModel() {
-        data = [ProfileViewModel(viewModelType: .info,
+        data = [ProfileModel(viewModelType: .info,
                                  title: "Name: \(UserDefaults.standard.value(forKey: "name") as? String ?? "No Name")",
                                  handler: nil),
-                ProfileViewModel(viewModelType: .info,
+                ProfileModel(viewModelType: .info,
                                  title: "Email: \(UserDefaults.standard.value(forKey: "email") as? String ?? "No Email")",
                                  handler: nil),
-                ProfileViewModel(viewModelType: .logout, title: "Log Out", handler: { [weak self] in
+                ProfileModel(viewModelType: .logout, title: "Log Out", handler: { [weak self] in
                     guard let self else { return }
                     
                     let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
