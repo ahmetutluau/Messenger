@@ -61,7 +61,7 @@ final class ConversationTVCell: UITableViewCell {
                                         height: (contentView.height-20)/2)
     }
     
-    public func configure(with model: Conversation) {
+    func configure(with model: Conversation) {
         self.userMessageLabel.text = model.latestMessage.text
         self.userNameLabel.text = model.name
         let path = "images/\(model.otherUserEmail)_profile_picture.png"

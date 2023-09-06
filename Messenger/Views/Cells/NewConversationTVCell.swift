@@ -51,7 +51,7 @@ final class NewConversationTVCell: UITableViewCell {
                                      height: 50)
     }
     
-    public func configure(with model: SearchResult) {
+    func configure(with model: SearchResult) {
         self.userNameLabel.text = model.name
         let path = "images/\(model.email)_profile_picture.png"
         StorageManager.shared.downloadURL(for: path) { [weak self] result in

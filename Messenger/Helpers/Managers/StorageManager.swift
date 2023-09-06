@@ -17,7 +17,7 @@ final class StorageManager {
     typealias UploadPictureCompletion = (Result<String, StorageErrors>) -> Void
     
     /// upload picture to firebase storage and returns completion with url string to download
-    public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
+    func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("images/\(fileName)").putData(data, metadata: nil) { metaData, error in
             guard error == nil else {
                 print("fail to upload data to firebase for picture")
@@ -39,7 +39,7 @@ final class StorageManager {
     }
     
     /// upload image that will be sent in a conversation message
-    public func uploadMessagePhoto(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
+    func uploadMessagePhoto(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("message_images/\(fileName)").putData(data, metadata: nil) { [weak self] metaData, error in
             guard error == nil else {
                 print("fail to upload data to firebase for picture")
@@ -61,7 +61,7 @@ final class StorageManager {
     }
     
     /// upload video that will be sent in a conversation message
-    public func uploadMessageVideo(with fileUrl: URL, fileName: String, completion: @escaping UploadPictureCompletion) {
+    func uploadMessageVideo(with fileUrl: URL, fileName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("message_videos/\(fileName)").putFile(from: fileUrl, metadata: nil) { [weak self] metaData, error in
             guard error == nil else {
                 print("fail to upload data to firebase for video")
@@ -82,7 +82,7 @@ final class StorageManager {
         }
     }
     
-    public func downloadURL(for path: String, completion: @escaping (Result<URL, StorageErrors>) -> Void) {
+    func downloadURL(for path: String, completion: @escaping (Result<URL, StorageErrors>) -> Void) {
         let reference = storage.child(path)
         reference.downloadURL (completion: { url, error in
             guard let url = url, error == nil else {

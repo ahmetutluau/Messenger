@@ -17,8 +17,8 @@ final class ChatVC: MessagesViewController {
     private var senderUserPhotoUrl: URL?
     private var otherUserPhotoUrl: URL?    
     
-    public var otherUserEmail: String?
-    public var isNewConversation = false
+    var otherUserEmail: String?
+    var isNewConversation = false
     private var conversationId: String?
     
     private var selfSender: Sender? {

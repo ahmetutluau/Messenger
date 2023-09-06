@@ -9,7 +9,7 @@ import UIKit
 import JGProgressHUD
 
 final class NewConversationsVC: UIViewController {
-    public var completion: ((SearchResult) -> Void) = {_ in }
+    var completion: ((SearchResult) -> Void) = {_ in }
     private let spinner = JGProgressHUD()
     
     private var users: [[String: String]] = []
