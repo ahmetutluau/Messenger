@@ -9,7 +9,7 @@ In this application, you can message in realtime and send pictures, videos, loca
 - SDWebImage
 - JGProgressHUd
 - Programmatic UI and Storyboards
-- MVC Architectural Pattern
+- MVVM Architectural Pattern
 - UIKit
 
 ## Register
