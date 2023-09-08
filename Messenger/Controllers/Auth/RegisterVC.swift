@@ -10,6 +10,8 @@ import FirebaseAuth
 import JGProgressHUD
 
 final class RegisterVC: UIViewController, UINavigationControllerDelegate {
+    let viewModel = RegisterVM()
+    
     private let spinner = JGProgressHUD(style: .dark)
 
     private lazy var scrollView: UIScrollView = {
@@ -119,6 +121,8 @@ final class RegisterVC: UIViewController, UINavigationControllerDelegate {
         title = "Register"
         view.backgroundColor = .systemBackground
         
+        viewModel.delegate = self
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
         
@@ -175,56 +179,10 @@ final class RegisterVC: UIViewController, UINavigationControllerDelegate {
          
         spinner.show(in: view)
         
-        // firebase register
-        DatabaseManager.shared.userExist(with: email) { [weak self] exists in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                self.spinner.dismiss(animated: true)
-            }
-            guard !exists else {
-                self.alertUserLoginError("looks like this email already exists")
-                return
-            }
-            Auth.auth().createUser(withEmail: email, password: password) {(authResult, error) in
-                guard authResult != nil,
-                      error == nil else {
-                    print("error creating user")
-                    return
-                }
-                
-                UserDefaults.standard.set(email, forKey: "email")
-                UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
-                
-                let chatUser = ChatAppUser(firstName: firstName,
-                                           lastName: lastName,
-                                           email: email)
-                DatabaseManager.shared.insertUser(with: chatUser) { succes in
-                    if succes {
-                        //upload image
-                        guard let image = self.imageView.image,
-                              let data = image.pngData() else {
-                            return
-                        }
-                        
-                        let fileName = chatUser.profilePictureFileName
-                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { result in
-                            switch result {
-                            case .success(let downloadUrl):
-                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
-                                print(downloadUrl)
-                            case .failure(let error):
-                                print("storage manager error: \(error)")
-                            }
-                        }
-                    }
-                    
-                }
-                self.dismiss(animated: true)
-            }
-        }
-        
-        
-        
+        viewModel.register(email: email,
+                           password: password,
+                           firstName: firstName,
+                           lastName: lastName)
     }
     
     private func alertUserLoginError(_ message: String = "please enter all information to  create a new account") {
@@ -236,8 +194,6 @@ final class RegisterVC: UIViewController, UINavigationControllerDelegate {
     @objc private func didTappedChangeProfilePic() {
         presentPhotoActionSheet()
     }
-    
-    
 }
 
 extension RegisterVC: UITextFieldDelegate {
@@ -251,7 +207,7 @@ extension RegisterVC: UITextFieldDelegate {
     }
 }
 
-
+// MARK: - UIImagePickerControllerDelegate
 extension RegisterVC: UIImagePickerControllerDelegate {
     private func presentPhotoActionSheet() {
         let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select a picture", preferredStyle: .actionSheet)
@@ -285,8 +241,27 @@ extension RegisterVC: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true)
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         imageView.image = selectedImage
+        viewModel.imageData = selectedImage.pngData()
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
+    }
+}
+
+// MARK: - Subcsribe logic
+extension RegisterVC: RegisterVMProtocol {
+    func dismissController() {
+        self.dismiss(animated: true)
+    }
+    
+    func presentAlert(text: String) {
+        self.alertUserLoginError(text)
+
+    }
+    
+    func dismissSpinner() {
+        DispatchQueue.main.async {
+            self.spinner.dismiss(animated: true)
+        }
     }
 }

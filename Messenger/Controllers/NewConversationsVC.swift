@@ -9,13 +9,10 @@ import UIKit
 import JGProgressHUD
 
 final class NewConversationsVC: UIViewController {
+    let viewModel = NewConversationsVM()
     var completion: ((SearchResult) -> Void) = {_ in }
     private let spinner = JGProgressHUD()
-    
-    private var users: [[String: String]] = []
-    private var results: [SearchResult] = []
-    private var hasFetched = false
-    
+        
     private lazy var searchBar: UISearchBar = {
        let bar = UISearchBar()
         bar.delegate = self
@@ -46,9 +43,8 @@ final class NewConversationsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.topItem?.titleView = searchBar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(didTapCancelButton))
-        
+        setNavBar()
+        viewModel.delegate = self
         view.addSubview(noResultsLabel)
         view.addSubview(tableView)
     }
@@ -65,15 +61,21 @@ final class NewConversationsVC: UIViewController {
     @objc private func didTapCancelButton() {
         self.dismiss(animated: true)
     }
+    
+    private func setNavBar() {
+        navigationController?.navigationBar.topItem?.titleView = searchBar
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(didTapCancelButton))
+    }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension NewConversationsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        results.count
+        viewModel.results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = results[indexPath.row]
+        let model = viewModel.results[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: NewConversationTVCell.identifier, for: indexPath) as! NewConversationTVCell
         cell.configure(with: model)
         return cell
@@ -81,9 +83,8 @@ extension NewConversationsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         //start conversation
-        let targetUserData = results[indexPath.row]
+        let targetUserData = viewModel.results[indexPath.row]
         dismiss(animated: true) { [weak self] in
             self?.completion(targetUserData)
         }
@@ -94,6 +95,7 @@ extension NewConversationsVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension NewConversationsVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text,
@@ -102,65 +104,28 @@ extension NewConversationsVC: UISearchBarDelegate {
         }
         searchBar.resignFirstResponder()
         
-        results.removeAll()
+        viewModel.results.removeAll()
         spinner.show(in: view)
-        self.searchUsers (query: text)
+        viewModel.searchUsers (query: text)
     }
-    
-    func searchUsers (query: String) {
-        // check if array has firebase results
-        if hasFetched {
-            //if it does: filter
-            self.filterUsers(with: query)
-        }
-        else {
-            // if not, fetch then filter
-            DatabaseManager.shared.getAllUsers { result in
-                switch result {
-                case .success(let userCollection):
-                    self.hasFetched = true
-                    self.users = userCollection
-                    self.filterUsers(with: query)
-                case .failure(let error):
-                    print("Failed to get users: \(error)")
-                }
-            }
-        }
-    }
-    
-    func filterUsers (with term: String) {
-        // update the UI: either show results or show no results label
-        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String,
-              hasFetched else {
-            return
-        }
-        
-        let safeEmail = DatabaseManager.safeEmail(email: currentUserEmail)
-        self.spinner.dismiss(animated: true)
-        
-        let results: [SearchResult] = self.users.filter({
-            guard safeEmail != $0["email"],
-                  let name = $0[ "name"]?.lowercased() else { return false }
-            return name.hasPrefix(term.lowercased())
-        }).compactMap {
-            guard let email = $0["email"],
-                  let name = $0["name"] else { return nil }
-            return SearchResult(name: name, email: email)
-        }
-        
-        self.results = results
-        updateUI()
-    }
-    
-    func updateUI () {
-        if results.isEmpty {
+}
+
+
+// MARK: - Subcsribe logic
+extension NewConversationsVC: NewConversationsVMProtocol {
+    func updateUI() {
+        if viewModel.results.isEmpty {
             self.noResultsLabel.isHidden = false
             self.tableView.isHidden = true
-        }
-        else {
+        }else {
             self.noResultsLabel.isHidden = true
             self.tableView.isHidden = false
             self.tableView.reloadData()
         }
     }
+    
+    func dismissSpinner() {
+        spinner.dismiss(animated: true)
+    }
+
 }

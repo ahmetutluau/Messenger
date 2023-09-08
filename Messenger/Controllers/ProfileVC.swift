@@ -9,48 +9,16 @@ import UIKit
 import FirebaseAuth
 
 final class ProfileVC: UIViewController {
+    let viewModel = ProfileVM()
     
     @IBOutlet weak var tableView: UITableView!
-    var data = [ProfileModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.delegate = self
         setupTableView()
     }
-    
-    private func setupViewModel() {
-        data = [ProfileModel(viewModelType: .info,
-                                 title: "Name: \(UserDefaults.standard.value(forKey: "name") as? String ?? "No Name")",
-                                 handler: nil),
-                ProfileModel(viewModelType: .info,
-                                 title: "Email: \(UserDefaults.standard.value(forKey: "email") as? String ?? "No Email")",
-                                 handler: nil),
-                ProfileModel(viewModelType: .logout, title: "Log Out", handler: { [weak self] in
-                    guard let self else { return }
-                    
-                    let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel   ))
-                    alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { [weak self] _ in
-                        guard let self else { return }
-                        do {
-                            try Auth.auth().signOut()
-                            if Auth.auth().currentUser == nil {
-                                let vc = LoginVC()
-                                let nav = UINavigationController(rootViewController: vc)
-                                nav.modalPresentationStyle = .fullScreen
-                                self.present(nav, animated: false)
-                            }
-                        } catch {
-                            print(error)
-                        }
-                    }))
-                    self.present(alert, animated: true)
-                })
-        ]
         
-        tableView.reloadData()
-    }
-    
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -60,7 +28,7 @@ final class ProfileVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupViewModel()
+        viewModel.setupModel()
         tableView.tableHeaderView = createTableHeader()
     }
     
@@ -94,25 +62,22 @@ final class ProfileVC: UIViewController {
         
         headerView.addSubview(profileImageView)
         
-        StorageManager.shared.downloadURL(for: path, completion: { result in
-            switch result {
-            case .success (let url):
-                profileImageView.sd_setImage(with: url)
-            case .failure (let error):
-                print("Failed to get download url: \(error)")
-            }
-        })
+        viewModel.downloadUrl(path: path) { url in
+            profileImageView.sd_setImage(with: url)
+        }
+        
         return headerView
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
+        viewModel.data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewModel = data[indexPath.row]
+        let viewModel = viewModel.data[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTVCell.identifier, for: indexPath) as! ProfileTVCell
         cell.setup(with: viewModel)
         return cell
@@ -120,6 +85,33 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        data[indexPath.row].handler?()
+        viewModel.data[indexPath.row].handler?()
+    }
+}
+
+// MARK: - Subcsribe logic
+extension ProfileVC: ProfileVMProtocol {
+    func showAlert() {
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel   ))
+        alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { [weak self] _ in
+            guard let self else { return }
+            do {
+                try Auth.auth().signOut()
+                if Auth.auth().currentUser == nil {
+                    let vc = LoginVC()
+                    let nav = UINavigationController(rootViewController: vc)
+                    nav.modalPresentationStyle = .fullScreen
+                    self.present(nav, animated: false)
+                }
+            } catch {
+                print(error)
+            }
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    func reloadData() {
+        tableView.reloadData()
     }
 }

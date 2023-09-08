@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import FirebaseAuth
 import JGProgressHUD
 
 final class LoginVC: UIViewController {
+    let viewModel = LoginVM()
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     private lazy var scrollView: UIScrollView = {
@@ -75,11 +76,9 @@ final class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Login"
         view.backgroundColor = .systemBackground
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(didTappedRegister))
-        
+        viewModel.delegate = self
+        setNavBar()
         addSubviews()
     }
     
@@ -106,6 +105,11 @@ final class LoginVC: UIViewController {
         
     }
     
+    private func setNavBar() {
+        title = "Login"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(didTappedRegister))
+    }
+    
     @objc private func didTappedRegister() {
         let vc = RegisterVC()
         vc.title = "Register"
@@ -124,50 +128,7 @@ final class LoginVC: UIViewController {
         
         spinner.show(in: view)
         
-        // Firebase login
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
-            guard let self else { return }
-            
-            DispatchQueue.main.async {
-                self.spinner.dismiss(animated: true)
-            }
-            
-            guard let user = authResult?.user,
-                  error == nil else {
-                guard let error else { return }
-                let alert = UIAlertController(title: "Warning", message: "\(error.localizedDescription)", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "dissmiss", style: .cancel))
-                present(alert, animated: true)
-                return
-            }
-            
-            let safeEmail = DatabaseManager.safeEmail(email: email)
-            
-            let dispatchGroup = DispatchGroup()
-            dispatchGroup.enter()
-            
-            DatabaseManager.shared.getDataFor(path: safeEmail) { result in
-                defer {
-                    dispatchGroup.leave()
-                }
-                
-                switch result {
-                case .success(let data):
-                    guard let userData = data as? [String: Any],
-                          let firstName = userData["first_name"] as? String,
-                          let lastName = userData["last_name"] as? String else { return }
-                    
-                    UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
-                case .failure(let error):
-                    print("failed to read data with error: \(error)")
-                }
-            }
-            dispatchGroup.notify(queue: .main) {
-                 UserDefaults.standard.set(email, forKey: "email")
-                print("log in user: \(user)")
-                self.navigationController?.dismiss(animated: true)
-            }
-        }
+        viewModel.login(email: email, password: password)
     }
     
     private func alertUserLoginError() {
@@ -177,6 +138,7 @@ final class LoginVC: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension LoginVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
@@ -185,5 +147,24 @@ extension LoginVC: UITextFieldDelegate {
             loginButtonTapped()
         }
         return true
+    }
+}
+
+// MARK: - Subcsribe logic
+extension LoginVC: LoginVMProtocol {
+    func dismissController() {
+        self.navigationController?.dismiss(animated: true)
+    }
+    
+    func presentAlert(text: String) {
+        let alert = UIAlertController(title: "Warning", message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "dissmiss", style: .cancel))
+        present(alert, animated: true)
+    }
+    
+    func dismissSpinner() {
+        DispatchQueue.main.async {
+            self.spinner.dismiss(animated: true)
+        }
     }
 }
